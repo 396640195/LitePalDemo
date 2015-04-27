@@ -5,7 +5,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by Administrator on 2015/4/21 0021.
  */
-public class Student extends DataSupport {
+public class Student extends DataSupport implements DataSuportDao {
     private String name;
     private int age;
 

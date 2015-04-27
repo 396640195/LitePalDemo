@@ -1,7 +1,6 @@
 package demo.litepal.com.litepalapp;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import org.litepal.crud.DataSupport;
 
@@ -27,13 +25,21 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        Student student = new Student();
-        student.setAge(20);
-        student.setName("chenzhen");
-        student.save();
+        DataSupportProxy dsp = new DataSupportProxy();
 
-        Student sd = DataSupport.find(Student.class,1);
-        Log.d("TAG","sd.name->"+sd.getName());
+        Student st = new Student();
+        st.setName("chenzhen");
+        st.setAge(20);
+        DataSuportDao student = (DataSuportDao)dsp.build(st,new DataSupportProxy.OnContentChangedNotify() {
+            @Override
+            public void notifyDataChanged() {
+                Log.d("debug","data changed.");
+            }
+        });
+        student.save();
+        Student sd = DataSupport.findFirst(Student.class);
+        Log.d("debug","find data age:"+sd.getAge()+", name->"+sd.getName());
+        student.delete();
     }
 
 
